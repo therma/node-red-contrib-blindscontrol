@@ -1,0 +1,21 @@
+{
+  "name": "node-red-contrib-blindscontrol",
+  "version": "1.0.0",
+  "description": "Control a set of blinds based on time, sun position and weather conditions",
+  "scripts": {
+    "test": "mocha \"test/**/*_spec.js\""
+  },
+  "node-red": {
+    "nodes": {
+      "blindscontrol": "blindscontrol.js"
+    }
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "^9.0.2",
+    "node-red": "^2.0.3",
+    "node-red-node-test-helper": "^0.2.7"
+  }
+}
