@@ -1,0 +1,149 @@
+<script type="text/javascript">
+    RED.nodes.registerType('blind-minimize-sun',{
+        category: 'blind',
+        color: '#d3a3e6',
+        defaults: {
+            name: {
+                value: ""
+            },
+            topic: {
+                value: "", 
+                required: true
+            },
+            orientation: {
+                value: "", 
+                required: true,
+                validate: v => {
+                    var n = Number(v);
+                    return ((n >= 0) && (n <= 360));
+                }
+            },
+            noffset: {
+                value: "90",
+                required: true, 
+                validate: v => {
+                    var n = Number(v);
+                    return ((n >= 0) && (n <= 90));
+                }
+            },
+            poffset: {
+                value:"90",
+                required: true, 
+                validate: v => {
+                    var n = Number(v);
+                    return ((n >= 0) && (n <= 90));
+                }
+            },
+            top: {
+                value: "", 
+                required: true, 
+                validate: RED.validators.number()
+            },
+            bottom: {
+                value: "",
+                required: true, 
+                validate: v => {
+                    var b = Number(v);
+                    var t = Number(this.top);
+                    return (t > b);
+                }
+            },
+            depth: {
+                value: "", 
+                required: true, 
+                validate: RED.validators.number()
+            },
+            increment: {
+                value: "5",
+                required: true, 
+                validate: v => {
+                    var n = Number(v);
+                    return ((n > 0) && (n <= 100) && (100%n == 0));
+                }
+            },
+            maxPosition: {
+                value: "100",
+                required: true, 
+                validate: v => {
+                    var n = Number(v);
+                    var i = Number(this.increment);
+                    return (v == "" || ((n >= 0) && (n <= 100) && (n%i == 0)));
+                }
+            },
+            minPosition: {
+                value: "0",
+                required: true, 
+                validate: v => {
+                    var n = Number(v);
+                    var i = Number(this.increment);
+                    return (v == "" || ((n >= 0) && (n <= 100) && (n%i == 0) && (n >= this.maxPosition)));
+                }
+            },
+        },
+        inputs:1,
+        outputs:1,
+        icon: "font-awesome/fa-sort",
+        label: () => {
+            return this.name || "Blind Minimize Sun";
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="blind-minimize-sun">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <hr>
+    <div class="form-row">
+        <label><i class="fa fa-window-maximize"></i> <span class="row-full-width"> Dimensions</span></label>
+    </div>
+    <div class="form-row">
+        <label for="node-input-top"><i class="fa fa-angle-up"></i> Top</label>
+        <input type="text" id="node-input-top" placeholder="2.3">
+    </div>
+    <div class="form-row">
+        <label for="node-input-bottom"><i class="fa fa-angle-down"></i> Bottom</label>
+        <input type="text" id="node-input-bottom" placeholder="1.5">
+    </div>
+    <div class="form-row">
+        <label for="node-input-depth"><i class="fa fa-arrows-h"></i> Depth</label>
+        <input type="text" id="node-input-depth" placeholder="1">
+    </div>
+    <hr>
+    <div class="form-row">
+        <label><i class="fa fa-window-maximize"></i> <span class="row-full-width"> Orientation</span></label>
+    </div>
+    <div class="form-row">
+        <label for="node-input-orientation"><i class="fa fa-compass"></i> Orientation</label>
+        <input type="text" id="node-input-orientation" placeholder="180">
+    </div>
+    <div class="form-row">
+        <label for="node-input-noffset"><i class="fa fa-undo"></i> Negative Offset</label>
+        <input type="text" id="node-input-noffset" placeholder="90">
+    </div>
+    <div class="form-row">
+        <label for="node-input-poffset"><i class="fa fa-repeat"></i> Positive Offset</label>
+        <input type="text" id="node-input-poffset" placeholder="90">
+    </div>
+    <hr>
+    <div class="form-row">
+        <label><i class="fa fa-window-maximize"></i> <span class="row-full-width"> Position</span></label>
+    </div>
+    <div class="form-row">
+        <label for="node-input-increment"><i class="fa fa-angle-up"></i> Increment</label>
+        <input type="text" id="node-input-increment" placeholder="10">
+    </div>
+    <div class="form-row">
+        <label for="node-input-maxPosition"><i class="fa fa-angle-up"></i> Max Position</label>
+        <input type="text" id="node-input-maxPosition" placeholder="100">
+    </div>
+    <div class="form-row">
+        <label for="node-input-minPosition"><i class="fa fa-angle-down"></i> Min Position</label>
+        <input type="text" id="node-input-minPosition" placeholder="0">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="blind-minimize-sun">
+    <p>A node that control blind position based on sun position in order to minimize sun in the room</p>
+</script>
